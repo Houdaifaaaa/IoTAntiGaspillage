@@ -6,14 +6,36 @@ from datetime import datetime, date
 now = date.today()
 
 
-image = cv2.imread("dateTest2.png")
+image = cv2.imread("maruja_bar.jpeg")
 if image is None:
     print("Error: Image not found")
     exit()
 
-#cv2.imshow("Maruja", image)
-#cv2.waitKey(0)
-#cv2.destroyAllWindows()
+    # ---- 200% zoom into the center of the image ----
+h, w = image.shape[:2]
+
+# Center coordinates
+cx, cy = w // 2, h // 2
+
+# Crop size (half width & height → 2x zoom)
+crop_w, crop_h = w // 2, h // 2
+
+x1 = cx - crop_w // 2
+y1 = cy - crop_h // 2
+x2 = cx + crop_w // 2
+y2 = cy + crop_h // 2
+
+# Crop center
+center_crop = image[y1:y2, x1:x2]
+
+# Resize back to original size
+image = cv2.resize(center_crop, (w, h), interpolation=cv2.INTER_CUBIC)
+# ----------------------------------------------
+
+
+cv2.imshow("Maruja", image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 
 #gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 text = pytesseract.image_to_string(image)
@@ -54,6 +76,8 @@ for line in lines:
             dlcDate = datetime.strptime(clean_date, "%d/%m/%Y").date()
             dateRemaining = (dlcDate - now).days
 
-            print("Remaining time before expiration:", dateRemaining,"days") 
+            print("Remaining time before expiration:", dateRemaining,"days")
+    else:
+        print("I didn't obtain the date")
 
 
