@@ -54,6 +54,6 @@ for line in lines:
             dlcDate = datetime.strptime(clean_date, "%d/%m/%Y").date()
             dateRemaining = (dlcDate - now).days
 
-            print("Remaining time before expiration:", dateRemaining) 
+            print("Remaining time before expiration:", dateRemaining,"days") 
 
 
