@@ -76,8 +76,11 @@ for line in lines:
             dlcDate = datetime.strptime(clean_date, "%d/%m/%Y").date()
             dateRemaining = (dlcDate - now).days
 
+            found = True
+
             print("Remaining time before expiration:", dateRemaining,"days")
-    else:
-        print("I didn't obtain the date")
+if not found:
+    print("I didn't obtain the data")
+
 
 
